@@ -116,7 +116,7 @@ export class PopoverContent implements AfterViewInit, OnDestroy {
             document.addEventListener("mousedown", this.onDocumentMouseDown);
         if (this.closeOnMouseOutside)
             document.addEventListener("mouseover", this.onDocumentMouseDown);
-
+        
         this.show();
         this.cdr.detectChanges();
     }
@@ -307,7 +307,7 @@ export class PopoverContent implements AfterViewInit, OnDestroy {
         return desiredPlacement;
     }
 
-    // Sets the target placement opposite the effective target placement
+    // Sets the tether element placement opposite the effective target placement
     protected getElementPlacement(placement: string) {
         let elementPlacement = 'top';
         switch (placement) {
