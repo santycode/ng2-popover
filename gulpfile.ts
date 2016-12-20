@@ -35,6 +35,14 @@ export class Gulpfile {
             ]));
     }
 
+    @Task()
+    compileSample() {
+        return gulp.src("package.json", { read: false })
+            .pipe(shell([
+                "\"node_modules/.bin/ngc\" -p tsconfig.json"
+            ]));
+    }
+
     // -------------------------------------------------------------------------
     // Packaging and Publishing tasks
     // -------------------------------------------------------------------------

@@ -4,42 +4,43 @@ import {Popover} from "./Popover";
 @Component({
     selector: "popover-content",
     template: `
-<div #popoverDiv class="popover {{ effectivePlacement }}"
-     [style.top]="top + 'px'"
-     [style.left]="left + 'px'"
-     [class.in]="isIn"
-     [class.fade]="animation"
-     style="display: block"
-     role="popover">
-    <div [hidden]="!closeOnMouseOutside" class="virtual-area"></div>
-    <div class="arrow"></div> 
-    <h3 class="popover-title" [hidden]="!title">{{ title }}</h3>
-    <div class="popover-content">
-        <ng-content></ng-content>
-        {{ content }}
-    </div> 
-</div>
-`,
+        <div #popoverDiv class="popover fade bs-tether-element bs-tether-enabled bs-tether-element-attached-middle bs-tether-element-attached-{{ elementPlacement }} bs-tether-target-attached-middle bs-tether-target-attached-{{ effectivePlacement }}"
+             [style.top]="top + 'px'"
+             [style.left]="left + 'px'"
+             [class.in]="isIn"
+             [class.fade]="animation"
+             style="display: block"
+             role="popover">
+            <div [hidden]="!closeOnMouseOutside" class="virtual-area"></div>
+            <div class="arrow"></div> 
+            <h3 class="popover-title" [hidden]="!title">{{ title }}</h3>
+            <div class="popover-content">
+                <ng-content></ng-content>
+                {{ content }}
+            </div> 
+        </div>
+    `,
     styles: [`
-.popover .virtual-area {
-    height: 11px;
-    width: 100%;
-    position: absolute;
-}
-.popover.top .virtual-area {
-    bottom: -11px; 
-}
-.popover.bottom .virtual-area {
-    top: -11px; 
-}
-.popover.left .virtual-area {
-    right: -11px; 
-}
-.popover.right .virtual-area {
-    left: -11px; 
-}
-`]
+        .popover .virtual-area {
+            height: 11px;
+            width: 100%;
+            position: absolute;
+        }
+        .popover.top .virtual-area {
+            bottom: -11px; 
+        }
+        .popover.bottom .virtual-area {
+            top: -11px; 
+        }
+        .popover.left .virtual-area {
+            right: -11px; 
+        }
+        .popover.right .virtual-area {
+            left: -11px; 
+        }
+    `]
 })
+
 export class PopoverContent implements AfterViewInit, OnDestroy {
 
     // -------------------------------------------------------------------------
@@ -81,6 +82,7 @@ export class PopoverContent implements AfterViewInit, OnDestroy {
     isIn: boolean = false;
     displayType: string = "none";
     effectivePlacement: string;
+    elementPlacement: string;
 
     // -------------------------------------------------------------------------
     // Anonymous 
@@ -167,6 +169,7 @@ export class PopoverContent implements AfterViewInit, OnDestroy {
         let targetElHeight = targetEl.offsetHeight;
 
         this.effectivePlacement = pos0 = this.getEffectivePlacement(pos0, hostEl, targetEl);
+        this.elementPlacement = this.getElementPlacement(this.effectivePlacement);
 
         let shiftWidth: any = {
             center: function (): number {
@@ -303,4 +306,25 @@ export class PopoverContent implements AfterViewInit, OnDestroy {
 
         return desiredPlacement;
     }
+
+    // Sets the target placement opposite the effective target placement
+    protected getElementPlacement(placement: string) {
+        let elementPlacement = 'top';
+        switch (placement) {
+            case 'bottom':
+                elementPlacement = 'top';
+                break;
+            case 'top':
+                elementPlacement = 'bottom';
+                break;
+            case 'left':
+                elementPlacement = 'right';
+                break;
+            case 'right':
+                elementPlacement = 'left';
+                break;
+        }
+        return elementPlacement;
+    }
+
 }

@@ -26,7 +26,7 @@ import {BrowserModule} from "@angular/platform-browser";
     <div>
         <popover-content #myPopover 
             title="this header can be omitted"
-            placement="right"
+            placement="bottom"
             [closeOnClickOutside]="true">
             <b>Very</b> <span style="color: #C21F39">Dynamic</span> <span style="color: #00b3ee">Reusable</span> 
             <b><i><span style="color: #ffc520">Popover With</span></i></b> <small>Html support</small>.
@@ -66,6 +66,10 @@ import {BrowserModule} from "@angular/platform-browser";
         <button popover="By default, this popover will be shown to the left if enough space, otherwise, to the right." popoverPlacement="auto left">
             click this button to see a popover using auto placement
         </button>
+    </div>
+
+    <div>
+        <input [popover]="myPopover" />
     </div>
 </div>
 `
